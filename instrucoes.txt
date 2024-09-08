@@ -1,0 +1,51 @@
+Esse desafio inclui configurar grupos de recursos na Azure Cloud.
+
+Nele esta proposto criar um grupo de recursos de forma normal, 
+outro criar em lote (nomeando cada grupo) e por fim criar um para cada regiao informada.
+Foi também colocado a possibilidade de criar grupos de recursos para diferentes assinaturas. 
+
+Requisitos: 
+    - Estar logado na cli da azure ->  az login
+    - Ter o terraform instalado.
+    - (Opcional) Utilizar VSCode ou algum outro editor de texto ex notepad++.
+
+Abaixo segue um passo a passo simples e direto a respeito. Considero que seja um exercicio iniciante.
+
+1- Criar arquivos main.tf , terraform.tfvars , variables.tf no mesmo diretorio.
+
+2 - Adicionar ao variables.tf as variaveis que serão utilizadas para assinatura.
+    ex:
+    variable "subscription_id" {
+    description = "Assinatura 01"  #descricao a sua escolha para identificar a assinatura
+    type = string
+    }
+
+3 - No arquivo terraform.tfvars coloque a variavel e o valor da variavel. 
+    ex:
+    subscription_id = <"sua_SubscriptionId">
+
+4 - No main.tf você irá incluir tudo que vai declarar para subir/criar os recursos na Azure Cloud.
+    ex:
+    #provider -> para fazer a conexão com o provedor
+    provider "azurerm" {
+    alias = "nome-da-assinatura" #aqui vc pode colocar um nome qualquer para diferenciar caso tenha mais de 1 assinatura.
+    features {}
+    subscription_id = var.subscription_id #aqui vc inclui o "var.variaveldaSubscriptionId"
+    }
+    #resource -> esta declarando que será criado um recurso
+    resource "azurerm_resource_group" "rg" {
+    provider = azurerm.nome-da-assinatura #aqui voce coloca o alias configurado no provider
+    name = "example-resources" #nome do grupo de recursos
+    location = "East US"
+    }
+
+    O provider e o resource que passei estao simples, porem é comum nao usar o alias no provider, por boas praticas
+    e para poder usar mais de um provider em um mesmo arquivo usasse o alias. 
+
+
+5 - após todos arquivos estarem configurados, rode os comandos citados abaixo no diretório onde se encontram os arquivos:
+    -> terraform init
+    -> terraform plan (opcional)
+    -> terraform apply
+    Caso deseje desafazer tudo rode:
+    -> terraform destroy

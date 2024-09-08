@@ -21,7 +21,7 @@ Antes de começar, você precisará ter os seguintes componentes instalados e co
    ```
 
 2. **Configurar variáveis**: 
-   Crie um arquivo chamado `terraform.tfvars` no diretório raiz do projeto e adicione suas credenciais do Azure:
+   Crie um arquivo chamado `terraform.tfvars` no diretório raiz do projeto e adicione suas credenciais do Azure (eu utilizei 2 assinaturas no exercicio, para criar é simples, caso nao queiram deletem a segunda assinatura nas configuracoes):
 
    ```hcl
    primary_subscription_id = "sua_subscription_id_principal"
